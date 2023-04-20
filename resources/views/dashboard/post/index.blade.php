@@ -11,9 +11,11 @@
                 <div class="p-6 text-gray-900">
                     <main>
                         <div class="container py-4">
+                            @can('crear-Post')
+                                <a href="{{ url('dashboard/post/create') }}" class="btn btn-primary btn-sm">Nuevo Post</a>
+                            @endcan
                             <h2>Post Publicados</h2>
-                            <a href="{{ url('dashboard/post/create') }}" class="btn btn-primary btn-sm">Nuevo Post</a>
-                
+                                          
                             <table class="table table-dark table-striped">
                                 <thead>
                                     <tr>
@@ -39,13 +41,20 @@
                                             <td>{{ $post->state }} </td>
                                             <td>{{ $post->created_at }} </td>
                                             <td>{{ $post->updated_at }} </td>
-                                            <td><a href="{{ url('dashboard/post/' . $post->id . '/edit') }}" class="bi bi-pencil"></a></td>
                                             <td>
-                                                <form action="{{ url('dashboard/post/' . $post->id) }}" method="post">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button class="bi bi-eraser-fill" type="submit"></button>
-                                                </form>
+                                                @can('editar-Post')
+                                                <a href="{{ url('dashboard/post/' . $post->id . '/edit') }}" class="bi bi-pencil"></a></td> 
+                                                @endcan
+                                                
+                                            <td>
+                                                @can('borrar-Post')
+                                                    <form action="{{ url('dashboard/post/' . $post->id) }}" method="post">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                        <button class="bi bi-eraser-fill" type="submit"></button>
+                                                    </form>
+                                                @endcan
+                                                
                                             </td>
                                         </tr>
                                     @endforeach
